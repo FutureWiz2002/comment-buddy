@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Editor, { DiffEditor, useMonaco, loader } from "@monaco-editor/react";
 import data from "./theme.json";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export default function Home() {
   const [currentCode, setCurrentCode] = useState("");
@@ -11,14 +12,36 @@ export default function Home() {
 
   const updateCode = (value: string | undefined, event?: any) => {
     setCurrentCode(value ?? "");
-    console.log(value);
   };
 
-  const getCommentedCode = () => {
-    console.log("Getting comments")
-    let results = "This is the result"
-    setReturnedCode(results)
-  }
+  const getCommentedCode = async () => {
+    console.log("Sending this code to backend",currentCode);
+    try {
+      const response = await fetch("/api/addComments", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ returnedCode }), 
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("API Response Error:", errorData); 
+        throw new Error("Failed to get comments");
+      }
+
+      const data = await response.json();
+      console.log("Commented code:", data);
+      if (data.error) {
+        console.error("Error from Groq API:", data.error);
+      } else {
+        setReturnedCode(data.data); 
+      }
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
 
   loader.init().then((monaco) => {
     monaco.editor.defineTheme("nightowl", {
