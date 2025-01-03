@@ -7,18 +7,18 @@ export async function POST(req: any) {
     messages: [
       {
         role: "system",
-        content: "please write a poem of two lines",
+        content: "Follow a good style guide and add comments. You don't have to add comments every line, but a chunck of code would be nice. If you receive a function then please use style guides (perhaps google). Please only return the code",
       },
       {
         role: "user",
-        content: "please write a poem of two lines",
+        content: currentCode,
       },
     ],
     model: "llama-3.3-70b-versatile",
     temperature: 1,
     max_tokens: 1024,
     top_p: 1,
-    stream: true,
+    stream: false,
     stop: null,
   });
 
@@ -33,11 +33,3 @@ export async function POST(req: any) {
     status: 201,
   });
 }
-
-// type ResponseData = {
-//   message: string
-// }
-
-// export async function GET() {
-//   return new Response("Hi")
-// }

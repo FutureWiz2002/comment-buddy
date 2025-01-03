@@ -25,13 +25,12 @@ export default function Home() {
       body: JSON.stringify({ currentCode }),
     });
     if (!response.ok) {
-      console.error("API response error:", await response.text());
-      throw new Error("Failed to fetch commented code");
+      console.log(response)
     }
-
+    
     const data = await response.json();
-    console.log("Returned code:", data);
-    setReturnedCode(data)
+    console.log("Returned code:", data.text.choices[0].message.content);
+    setReturnedCode(data.text.choices[0].message.content)
   };
 
   loader.init().then((monaco) => {
@@ -736,7 +735,7 @@ export default function Home() {
             <p>Input Code:</p>
             <Editor
               height="70vh"
-              width="90vh"
+              width="40vh"
               defaultLanguage="python"
               defaultValue="// Enter you code here"
               theme="nightowl"
@@ -755,7 +754,7 @@ export default function Home() {
             <p>Output Code:</p>
             <Editor
               height="70vh"
-              width="90vh"
+              width="40vh"
               defaultLanguage="python"
               defaultValue="// See AI commented output"
               theme="nightowl"
