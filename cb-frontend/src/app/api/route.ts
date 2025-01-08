@@ -7,7 +7,7 @@ export async function POST(req: any) {
     messages: [
       {
         role: "system",
-        content: "Follow a good style guide and add comments. You don't have to add comments every line, but a chunck of code would be nice. If you receive a function then please use style guides (perhaps google). Please only return the code",
+        content: "Follow a google style guide and add comments. You don't have to add comments every line, but a chunck of code would be nice. If you receive a function then please use google style guides, like input and output and what it does. Please only return the code, return the code as text, DO NOT USE ```",
       },
       {
         role: "user",

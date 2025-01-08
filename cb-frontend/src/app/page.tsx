@@ -15,7 +15,7 @@ export default function Home() {
   };
 
   const getCommentedCode = async (e: any) => {
-    e.preventDefault()
+    e.preventDefault();
     console.log("Inside getCommentedCode");
     const response = await fetch("/api", {
       method: "POST",
@@ -25,12 +25,12 @@ export default function Home() {
       body: JSON.stringify({ currentCode }),
     });
     if (!response.ok) {
-      console.log(response)
+      console.log(response);
     }
-    
+
     const data = await response.json();
     console.log("Returned code:", data.text.choices[0].message.content);
-    setReturnedCode(data.text.choices[0].message.content)
+    setReturnedCode(data.text.choices[0].message.content);
   };
 
   loader.init().then((monaco) => {
@@ -721,40 +721,35 @@ export default function Home() {
   });
 
   return (
-    <div className="items-center justify-items-center  font-[family-name:var(--font-geist-sans)] my-10">
-      <main className="items-center">
-        <div>
-          <p className="text-5xl text-center ">Comment-Buddy</p>
-          <p>
+    <div className="items-center justify-items-center font-[family-name:var(--font-geist-sans)] my-10 text-black bg-gray-900">
+      <main>
+        <div className="items-center">
+          <p className="text-6xl text-center my-4 text-transparent bg-clip-text font-bold bg-gradient-to-r from-pink-500 to-blue-400">
+            CommentLLM
+          </p>
+          <p className="text-3xl m-5 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-blue-400">
             Tired of documenting your codes? Use this tool to add comments to
-            your code so everyone can understand the magic you have done
+            your code so everyone (including you) can understand what your code
+            does!
           </p>
         </div>
-        <div className="flex">
-          <div className="m-3">
-            <p>Input Code:</p>
+        <div className="flex items-center justify-center">
+          <div className="m-7 shadow-[0_0_20px_20px_rgba(236,72,153,0.3)]">
+            <p className="text-white text-xl m-3">Input Code:</p>
             <Editor
               height="70vh"
-              width="40vh"
+              width="70vh"
               defaultLanguage="python"
               defaultValue="// Enter you code here"
               theme="nightowl"
               onChange={updateCode}
             />
-            <div>
-              <button
-                className="text-align-center py-5 px-4 m-5 bg-gray-600 rounded-full"
-                onClick={getCommentedCode}
-              >
-                Get your comments
-              </button>
-            </div>
           </div>
-          <div className="m-3">
-            <p>Output Code:</p>
+          <div className="m-7 shadow-[0_0_20px_20px_rgba(0,0,255,0.3)]">
+            <p className="text-white text-xl m-3">Output Code:</p>
             <Editor
               height="70vh"
-              width="40vh"
+              width="70vh"
               defaultLanguage="python"
               defaultValue="// See AI commented output"
               theme="nightowl"
@@ -762,54 +757,15 @@ export default function Home() {
             />
           </div>
         </div>
+        <div className="flex items-center justify-center">
+          <button
+            className="text-align-center py-5 px-4 m-5 bg-gray-900 rounded-full shadow-[0_0_10px_10px_rgba(0,0,255,0.5)] hover:shadow-[0_0_10px_10px_rgba(0,0,255,0.8)]"
+            onClick={getCommentedCode}
+          >
+            <p className="text-white">Get your comments</p>
+          </button>
+        </div>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
